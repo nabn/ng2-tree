@@ -63,6 +63,7 @@ import { get, isNil } from './utils/fn.utils';
         <node-menu *ngIf="tree.hasLeftMenu() && isLeftMenuVisible && !hasCustomMenu()"
           (menuItemSelected)="onMenuItemSelected($event)">
         </node-menu>
+        <div class="drag-template" *ngIf="tree.hasDragIcon()" [innerHTML]="tree.dragTemplate"></div>
       </div>
 
       <node-menu *ngIf="isRightMenuVisible && !hasCustomMenu()"

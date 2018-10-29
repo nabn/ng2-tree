@@ -51,6 +51,9 @@ export interface Templates {
 
   /* A template for left menu html element */
   leftMenu?: string;
+
+  /* A template for drag icon */
+  dragIcon?: string;
 }
 
 export class TreeModelSettings {
@@ -59,6 +62,14 @@ export class TreeModelSettings {
 
   /* Templates - set custom html templates to be used in a tree */
   public templates?: Templates;
+
+  /**
+   * "dragIcon" property when set to true shows a "drag" icon on hover to the very right of an item.
+   * @name TreeModelSettings#dragIcon
+   * @type boolean
+   * @default false
+   */
+  public dragIcon?: boolean;
 
   /**
    * "leftMenu" property when set to true makes left menu available.

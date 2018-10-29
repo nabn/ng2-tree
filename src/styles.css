@@ -12,7 +12,7 @@
   box-shadow: 0 0 5px #bdbdbd;
   background-color: #eee;
   color: #212121;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   z-index: 999;
 }
 
@@ -72,7 +72,7 @@ tree-internal .over-drop-target {
 
 tree-internal .tree {
   box-sizing: border-box;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 tree-internal .tree li {
@@ -113,6 +113,26 @@ tree-internal .tree .node-left-menu {
 tree-internal .tree .node-left-menu span:before {
   content: '\2026';
   color: #757575;
+}
+
+tree-internal .tree .drag-template {
+  visibility: hidden;
+  display: inline-block;
+  padding: 0 2px;
+}
+
+tree-internal .tree .drag-template,
+tree-internal .tree .drag-template * {
+  cursor: default;
+}
+
+tree-internal .tree .drag-template span:before {
+  content: '\2630';
+  line-height: 1;
+}
+
+tree-internal .value-container:hover .drag-template {
+  visibility: visible;
 }
 
 tree-internal .tree .node-selected:after {
@@ -187,16 +207,31 @@ tree-internal .loading-children:after {
 }
 
 @keyframes loading-children {
-  0%    { color: #f3e5f5; }
-  12.5% { color: #e1bee7; }
-  25%   { color: #ce93d8; }
-  37.5% { color: #ba68c8; }
-  50%   { color: #ab47bc; }
-  62.5% { color: #9c27b0; }
-  75%   { color: #8e24aa; }
-  87.5% { color: #7b1fa2; }
-  100%  { color: #6a1b9a; }
+  0% {
+    color: #f3e5f5;
+  }
+  12.5% {
+    color: #e1bee7;
+  }
+  25% {
+    color: #ce93d8;
+  }
+  37.5% {
+    color: #ba68c8;
+  }
+  50% {
+    color: #ab47bc;
+  }
+  62.5% {
+    color: #9c27b0;
+  }
+  75% {
+    color: #8e24aa;
+  }
+  87.5% {
+    color: #7b1fa2;
+  }
+  100% {
+    color: #6a1b9a;
+  }
 }
-
-
-

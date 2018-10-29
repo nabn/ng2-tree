@@ -373,6 +373,14 @@ export class Tree {
   }
 
   /**
+   * Check whether or not this tree should show a drag icon.
+   * @returns {boolean} A flag indicating whether or not this tree has a left menu.
+   */
+  public hasDragIcon(): boolean {
+    return !get(this.node.settings, 'static', false) && get(this.node.settings, 'dragIcon', false);
+  }
+
+  /**
    * Check whether this tree is "Leaf" or not.
    * @returns {boolean} A flag indicating whether or not this tree is a "Leaf".
    */
@@ -571,6 +579,10 @@ export class Tree {
       return get(this.node.settings, 'templates.leftMenu', '<span></span>');
     }
     return '';
+  }
+
+  public get dragTemplate(): string {
+    return get(this.node.settings, 'templates.dragIcon', '<span></span>');
   }
 
   public disableCollapseOnInit() {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Ng2TreeSettings, NodeEvent, RenamableNode, TreeModel } from '../../../index';
+import { Ng2TreeSettings, NodeEvent, RenamableNode, TreeModel, TreeModelSettings } from '../../../index';
 import { NodeMenuItemAction } from '../../menu/menu.events';
 import { MenuItemSelectedEvent } from '../../tree.events';
 
@@ -88,7 +88,7 @@ declare const alertify: any;
         </div>
         <div class="tree-container">
             <div class="tree-info">
-                <p class="tree-title">Programming languages tree</p>
+                <p class="tree-title">Custom icons tree</p>
                 <p class="notice">this tree is using a custom template</p>
             </div>
             <div class="tree-content">
@@ -563,7 +563,23 @@ export class AppComponent implements OnInit {
         children: [
           {
             value: 'Aspect-oriented programming',
-            children: [{ value: 'AspectJ' }, { value: 'AspectC++' }]
+            children: [
+              {
+                value: 'AspectJ',
+                settings: {
+                  dragIcon: true
+                }
+              },
+              {
+                value: 'AspectC++',
+                settings: {
+                  dragIcon: true
+                }
+              }
+            ],
+            settings: {
+              dragIcon: true
+            }
           },
           {
             value: 'Object-oriented programming',
@@ -577,15 +593,77 @@ export class AppComponent implements OnInit {
                   toString(): string {
                     return this.name;
                   }
-                } as RenamableNode
+                } as RenamableNode,
+                settings: {
+                  dragIcon: true,
+                  templates: {
+                    dragIcon: '<i class="fa fa-sort" aria-hidden="true"></i>'
+                  }
+                }
               },
-              { value: 'C++' },
-              { value: 'C#' }
-            ]
+              {
+                value: 'C++',
+                settings: {
+                  dragIcon: true,
+                  templates: {
+                    dragIcon: '<i class="fa fa-sort" aria-hidden="true"></i>'
+                  }
+                }
+              },
+              {
+                value: 'C#',
+                settings: {
+                  dragIcon: true,
+                  templates: {
+                    dragIcon: '<i class="fa fa-sort" aria-hidden="true"></i>'
+                  }
+                }
+              }
+            ],
+            settings: {
+              dragIcon: true,
+              templates: {
+                dragIcon: '<i class="fa fa-sort" aria-hidden="true"></i>'
+              }
+            }
           },
           {
             value: 'Prototype-based programming',
-            children: [{ value: 'JavaScript' }, { value: 'CoffeeScript' }, { value: 'TypeScript' }]
+            children: [
+              {
+                value: 'JavaScript',
+                settings: {
+                  dragIcon: true,
+                  templates: {
+                    dragIcon: '<i class="fa fa-crosshairs" aria-hidden="true"></i>'
+                  }
+                }
+              },
+              {
+                value: 'CoffeeScript',
+                settings: {
+                  dragIcon: true,
+                  templates: {
+                    dragIcon: '<i class="fa fa-crosshairs" aria-hidden="true"></i>'
+                  }
+                }
+              },
+              {
+                value: 'TypeScript',
+                settings: {
+                  dragIcon: true,
+                  templates: {
+                    dragIcon: '<i class="fa fa-crosshairs" aria-hidden="true"></i>'
+                  }
+                }
+              }
+            ],
+            settings: {
+              dragIcon: true,
+              templates: {
+                dragIcon: '<i class="fa fa-crosshairs" aria-hidden="true"></i>'
+              }
+            }
           }
         ]
       };
