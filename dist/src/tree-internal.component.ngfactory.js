@@ -304,6 +304,21 @@ function View_TreeInternalComponent_11(_l) {
     0,
     [
       (_l()(),
+      i0.ɵeld(0, 0, null, null, 0, 'div', [['class', 'drag-template']], [[8, 'innerHTML', 1]], null, null, null, null))
+    ],
+    null,
+    function(_ck, _v) {
+      var _co = _v.component;
+      var currVal_0 = _co.tree.dragTemplate;
+      _ck(_v, 0, 0, currVal_0);
+    }
+  );
+}
+function View_TreeInternalComponent_12(_l) {
+  return i0.ɵvid(
+    0,
+    [
+      (_l()(),
       i0.ɵeld(
         0,
         0,
@@ -336,7 +351,7 @@ function View_TreeInternalComponent_11(_l) {
     null
   );
 }
-function View_TreeInternalComponent_12(_l) {
+function View_TreeInternalComponent_13(_l) {
   return i0.ɵvid(
     0,
     [
@@ -382,7 +397,7 @@ function View_TreeInternalComponent_12(_l) {
     null
   );
 }
-function View_TreeInternalComponent_14(_l) {
+function View_TreeInternalComponent_15(_l) {
   return i0.ɵvid(
     0,
     [
@@ -422,7 +437,7 @@ function View_TreeInternalComponent_14(_l) {
     null
   );
 }
-function View_TreeInternalComponent_13(_l) {
+function View_TreeInternalComponent_14(_l) {
   return i0.ɵvid(
     0,
     [
@@ -438,7 +453,7 @@ function View_TreeInternalComponent_13(_l) {
         null
       ),
       i0.ɵpod(2, { display: 0 }),
-      (_l()(), i0.ɵand(16777216, null, null, 2, null, View_TreeInternalComponent_14)),
+      (_l()(), i0.ɵand(16777216, null, null, 2, null, View_TreeInternalComponent_15)),
       i0.ɵdid(
         4,
         802816,
@@ -461,7 +476,7 @@ function View_TreeInternalComponent_13(_l) {
     null
   );
 }
-function View_TreeInternalComponent_16(_l) {
+function View_TreeInternalComponent_17(_l) {
   return i0.ɵvid(
     0,
     [
@@ -501,11 +516,11 @@ function View_TreeInternalComponent_16(_l) {
     null
   );
 }
-function View_TreeInternalComponent_15(_l) {
+function View_TreeInternalComponent_16(_l) {
   return i0.ɵvid(
     0,
     [
-      (_l()(), i0.ɵand(16777216, null, null, 2, null, View_TreeInternalComponent_16)),
+      (_l()(), i0.ɵand(16777216, null, null, 2, null, View_TreeInternalComponent_17)),
       i0.ɵdid(
         1,
         802816,
@@ -531,7 +546,7 @@ function View_TreeInternalComponent_1(_l) {
   return i0.ɵvid(
     0,
     [
-      (_l()(), i0.ɵeld(0, 0, null, null, 27, 'ul', [['class', 'tree']], null, null, null, null, null)),
+      (_l()(), i0.ɵeld(0, 0, null, null, 29, 'ul', [['class', 'tree']], null, null, null, null, null)),
       i0.ɵdid(
         1,
         278528,
@@ -543,14 +558,14 @@ function View_TreeInternalComponent_1(_l) {
         null
       ),
       i0.ɵpod(2, { rootless: 0 }),
-      (_l()(), i0.ɵeld(3, 0, null, null, 24, 'li', [], null, null, null, null, null)),
+      (_l()(), i0.ɵeld(3, 0, null, null, 26, 'li', [], null, null, null, null, null)),
       (_l()(),
       i0.ɵeld(
         4,
         0,
         null,
         null,
-        15,
+        17,
         'div',
         [['class', 'value-container']],
         [[2, 'selected', null]],
@@ -577,7 +592,7 @@ function View_TreeInternalComponent_1(_l) {
         { klass: [0, 'klass'], ngClass: [1, 'ngClass'] },
         null
       ),
-      i0.ɵpod(6, { rootless: 0 }),
+      i0.ɵpod(6, { rootless: 0, checked: 1 }),
       i0.ɵdid(
         7,
         212992,
@@ -637,8 +652,10 @@ function View_TreeInternalComponent_1(_l) {
       i0.ɵdid(23, 16384, null, 0, i1.NgIf, [i0.ViewContainerRef, i0.TemplateRef], { ngIf: [0, 'ngIf'] }, null),
       (_l()(), i0.ɵand(16777216, null, null, 1, null, View_TreeInternalComponent_13)),
       i0.ɵdid(25, 16384, null, 0, i1.NgIf, [i0.ViewContainerRef, i0.TemplateRef], { ngIf: [0, 'ngIf'] }, null),
-      (_l()(), i0.ɵand(16777216, null, null, 1, null, View_TreeInternalComponent_15)),
-      i0.ɵdid(27, 16384, null, 0, i1.NgIf, [i0.ViewContainerRef, i0.TemplateRef], { ngIf: [0, 'ngIf'] }, null)
+      (_l()(), i0.ɵand(16777216, null, null, 1, null, View_TreeInternalComponent_14)),
+      i0.ɵdid(27, 16384, null, 0, i1.NgIf, [i0.ViewContainerRef, i0.TemplateRef], { ngIf: [0, 'ngIf'] }, null),
+      (_l()(), i0.ɵand(16777216, null, null, 1, null, View_TreeInternalComponent_16)),
+      i0.ɵdid(29, 16384, null, 0, i1.NgIf, [i0.ViewContainerRef, i0.TemplateRef], { ngIf: [0, 'ngIf'] }, null)
     ],
     function(_ck, _v) {
       var _co = _v.component;
@@ -646,7 +663,7 @@ function View_TreeInternalComponent_1(_l) {
       var currVal_1 = _ck(_v, 2, 0, _co.isRootHidden());
       _ck(_v, 1, 0, currVal_0, currVal_1);
       var currVal_3 = 'value-container';
-      var currVal_4 = _ck(_v, 6, 0, _co.isRootHidden());
+      var currVal_4 = _ck(_v, 6, 0, _co.isRootHidden(), _co.tree.checked);
       _ck(_v, 5, 0, currVal_3, currVal_4);
       var currVal_5 = _co.nodeElementRef;
       var currVal_6 = _co.tree;
@@ -664,14 +681,16 @@ function View_TreeInternalComponent_1(_l) {
       _ck(_v, 17, 0, currVal_12);
       var currVal_13 = _co.tree.hasLeftMenu() && _co.isLeftMenuVisible && !_co.hasCustomMenu();
       _ck(_v, 19, 0, currVal_13);
-      var currVal_14 = _co.isRightMenuVisible && !_co.hasCustomMenu();
+      var currVal_14 = _co.tree.hasDragIcon();
       _ck(_v, 21, 0, currVal_14);
-      var currVal_15 = _co.hasCustomMenu() && (_co.isRightMenuVisible || _co.isLeftMenuVisible);
+      var currVal_15 = _co.isRightMenuVisible && !_co.hasCustomMenu();
       _ck(_v, 23, 0, currVal_15);
-      var currVal_16 = _co.tree.keepNodesInDOM();
+      var currVal_16 = _co.hasCustomMenu() && (_co.isRightMenuVisible || _co.isLeftMenuVisible);
       _ck(_v, 25, 0, currVal_16);
-      var currVal_17 = _co.tree.isNodeExpanded() && !_co.tree.keepNodesInDOM();
+      var currVal_17 = _co.tree.keepNodesInDOM();
       _ck(_v, 27, 0, currVal_17);
+      var currVal_18 = _co.tree.isNodeExpanded() && !_co.tree.keepNodesInDOM();
+      _ck(_v, 29, 0, currVal_18);
     },
     function(_ck, _v) {
       var _co = _v.component;

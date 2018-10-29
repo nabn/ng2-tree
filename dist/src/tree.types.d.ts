@@ -30,10 +30,18 @@ export interface Templates {
   node?: string;
   leaf?: string;
   leftMenu?: string;
+  dragIcon?: string;
 }
 export declare class TreeModelSettings {
   cssClasses?: CssClasses;
   templates?: Templates;
+  /**
+   * "dragIcon" property when set to true shows a "drag" icon on hover to the very right of an item.
+   * @name TreeModelSettings#dragIcon
+   * @type boolean
+   * @default false
+   */
+  dragIcon?: boolean;
   /**
    * "leftMenu" property when set to true makes left menu available.
    * @name TreeModelSettings#leftMenu

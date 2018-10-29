@@ -115,6 +115,26 @@ tree-internal .tree .node-left-menu span:before {
   color: #757575;
 }
 
+tree-internal .tree .drag-template {
+  visibility: hidden;
+  display: inline-block;
+  padding: 0 2px;
+}
+
+tree-internal .tree .drag-template,
+tree-internal .tree .drag-template * {
+  cursor: default;
+}
+
+tree-internal .tree .drag-template span:before {
+  content: '\2630';
+  line-height: 1;
+}
+
+tree-internal .value-container:hover .drag-template {
+  visibility: visible;
+}
+
 tree-internal .tree .node-selected:after {
   width: 100%;
 }

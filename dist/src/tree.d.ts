@@ -135,6 +135,11 @@ export declare class Tree {
    */
   hasRightMenu(): boolean;
   /**
+   * Check whether or not this tree should show a drag icon.
+   * @returns {boolean} A flag indicating whether or not this tree has a left menu.
+   */
+  hasDragIcon(): boolean;
+  /**
    * Check whether this tree is "Leaf" or not.
    * @returns {boolean} A flag indicating whether or not this tree is a "Leaf".
    */
@@ -228,6 +233,7 @@ export declare class Tree {
    * @returns {string} A string representing a html template.
    */
   readonly leftMenuTemplate: string;
+  readonly dragTemplate: string;
   disableCollapseOnInit(): void;
   isCollapsedOnInit(): boolean;
   keepNodesInDOM(): any;

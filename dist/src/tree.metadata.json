@@ -36,6 +36,7 @@
           "isStatic": [{ "__symbolic": "method" }],
           "hasLeftMenu": [{ "__symbolic": "method" }],
           "hasRightMenu": [{ "__symbolic": "method" }],
+          "hasDragIcon": [{ "__symbolic": "method" }],
           "isLeaf": [{ "__symbolic": "method" }],
           "hasCustomMenu": [{ "__symbolic": "method" }],
           "isBranch": [{ "__symbolic": "method" }],

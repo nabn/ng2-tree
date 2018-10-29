@@ -518,6 +518,22 @@ var Tree = (function() {
     );
   };
   /**
+   * Check whether or not this tree should show a drag icon.
+   * @returns {boolean} A flag indicating whether or not this tree has a left menu.
+   */
+  /**
+   * Check whether or not this tree should show a drag icon.
+   * @returns {boolean} A flag indicating whether or not this tree has a left menu.
+   */
+  Tree.prototype.hasDragIcon /**
+   * Check whether or not this tree should show a drag icon.
+   * @returns {boolean} A flag indicating whether or not this tree has a left menu.
+   */ = function() {
+    return (
+      !fn_utils_1.get(this.node.settings, 'static', false) && fn_utils_1.get(this.node.settings, 'dragIcon', false)
+    );
+  };
+  /**
    * Check whether this tree is "Leaf" or not.
    * @returns {boolean} A flag indicating whether or not this tree is a "Leaf".
    */
@@ -830,6 +846,13 @@ var Tree = (function() {
         return fn_utils_1.get(this.node.settings, 'templates.leftMenu', '<span></span>');
       }
       return '';
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(Tree.prototype, 'dragTemplate', {
+    get: function() {
+      return fn_utils_1.get(this.node.settings, 'templates.dragIcon', '<span></span>');
     },
     enumerable: true,
     configurable: true

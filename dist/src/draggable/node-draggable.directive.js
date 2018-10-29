@@ -43,6 +43,10 @@ var NodeDraggableDirective = (function() {
     /* tslint:enable:typedef */
   };
   NodeDraggableDirective.prototype.handleDragStart = function(e) {
+    if (this.tree.isBeingRenamed()) {
+      e.preventDefault();
+      return;
+    }
     if (e.stopPropagation) {
       e.stopPropagation();
     }
