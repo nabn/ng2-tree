@@ -55,6 +55,10 @@ export class NodeDraggableDirective implements OnDestroy, OnInit {
   }
 
   private handleDragStart(e: DragEvent): any {
+    if (this.tree.isBeingRenamed()) {
+      e.preventDefault();
+      return;
+    }
     if (e.stopPropagation) {
       e.stopPropagation();
     }
