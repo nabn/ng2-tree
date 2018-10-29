@@ -31,7 +31,7 @@ import { get, isNil } from './utils/fn.utils';
   <ul class="tree" *ngIf="tree" [ngClass]="{rootless: isRootHidden()}">
     <li>
       <div class="value-container"
-        [ngClass]="{rootless: isRootHidden()}"
+        [ngClass]="{rootless: isRootHidden(), checked: this.tree.checked}"
         [class.selected]="isSelected"
         (contextmenu)="showRightMenu($event)"
         [nodeDraggable]="nodeElementRef"
