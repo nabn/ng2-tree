@@ -1,2 +1,3 @@
 import './rxjs-imports';
-export declare class TreeModule {}
+export declare class TreeModule {
+}
