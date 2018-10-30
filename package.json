@@ -55,14 +55,11 @@
     "postversion": "git push origin master && git push --tags && npm run github-release && node publish.js",
     "webdriver-update": "node ./node_modules/protractor/bin/webdriver-manager update",
     "precommit": "pretty-quick --staged",
-    "prepush": "npm run compile && mkdir -p dist && cp -R src/styles.css README.md media dist",
-    "prettier": "prettier --write '{.,src,test}/**/*.ts'",
-    "postinstall": "node postinstall.js"
+    "prettier": "prettier --write '{.,src,test}/**/*.ts'"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && pretty-quick --staged",
-      "pre-push": "npm run compile && mkdir -p dist && cp -R src/styles.css README.md media dist"
+      "pre-commit": "npm run lint && pretty-quick --staged"
     }
   },
   "devDependencies": {
