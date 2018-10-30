@@ -54,13 +54,12 @@
     "version": "npm run changelog && git add CHANGELOG.md",
     "postversion": "git push origin master && git push --tags && npm run github-release && node publish.js",
     "webdriver-update": "node ./node_modules/protractor/bin/webdriver-manager update",
-    "prepush": "npm run compile && mkdir -p dist && cp -R src/styles.css README.md media dist",
     "prettier": "prettier --write '{.,src,test}/**/*.ts'"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint && pretty-quick --staged",
-      "pre-push": "npm run compile && mkdir -p dist && cp -R src/styles.css README.md media dist"
+      "pre-push": "npm run clean && mkdir dist && npm run compile && cp -R src/styles.css README.md media dist"
     }
   },
   "devDependencies": {
