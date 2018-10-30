@@ -14,13 +14,13 @@
       "url": "https://www.arria.com"
     }
   ],
-  "homepage": "https://github.com/valor-software/ng2-tree",
+  "homepage": "https://github.com/ArriaData2Text/ng2-tree",
   "repository": {
     "type": "git",
-    "url": "git@github.com:valor-software/ng2-tree.git"
+    "url": "git@github.com:ArriaData2Text/ng2-tree.git"
   },
   "bugs": {
-    "url": "https://github.com/valor-software/ng2-tree/issues"
+    "url": "https://github.com/ArriaData2Text/ng2-tree/issues"
   },
   "private": true,
   "keywords": [
@@ -54,7 +54,6 @@
     "version": "npm run changelog && git add CHANGELOG.md",
     "postversion": "git push origin master && git push --tags && npm run github-release && node publish.js",
     "webdriver-update": "node ./node_modules/protractor/bin/webdriver-manager update",
-    "precommit": "pretty-quick --staged",
     "prepush": "npm run compile && mkdir -p dist && cp -R src/styles.css README.md media dist",
     "prettier": "prettier --write '{.,src,test}/**/*.ts'"
   },
@@ -86,7 +85,7 @@
     "core-js": "2.5.1",
     "font-awesome": "4.7.0",
     "gh-pages": "1.1.0",
-    "husky": "0.14.3",
+    "husky": "^1.1.2",
     "jasmine-core": "2.8.0",
     "jasmine-data-provider": "2.2.0",
     "jasmine-spec-reporter": "4.2.1",
