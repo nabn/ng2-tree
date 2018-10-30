@@ -57,7 +57,7 @@
     "precommit": "pretty-quick --staged",
     "prepush": "npm run compile && mkdir -p dist && cp -R src/styles.css README.md media dist",
     "prettier": "prettier --write '{.,src,test}/**/*.ts'",
-    "postinstall": "rm -r index.ts src && mv dist/{index.js, src} ."
+    "postinstall": "mv dist /tmp/ng2-tree-dist && rm -rf ./* && mv /tmp/ng2-tree-dist/* . && rm -r /tmp/ng2-tree-dist"
   },
   "husky": {
     "hooks": {
