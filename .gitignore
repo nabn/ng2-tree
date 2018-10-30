@@ -1,6 +1,7 @@
 .idea
 .vscode
 .publish
+dist
 dist-demo
 build
 coverage
