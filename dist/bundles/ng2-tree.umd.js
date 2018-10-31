@@ -342,7 +342,7 @@ $__System.registerDynamic("18", ["10", "12", "13", "14", "19", "15", "1a", "11",
             this.controller = new tree_controller_1.TreeController(this);
         };
         TreeInternalComponent.prototype.ngOnDestroy = function () {
-            if (fn_utils_1.get(this.tree, 'node.id', '')) {
+            if (fn_utils_1.get(this.tree, 'node.id', '') && !(this.tree.parent && this.tree.parent.children.indexOf(this.tree) > -1)) {
                 this.treeService.deleteController(this.tree.node.id);
             }
             this.subscriptions.forEach(function (sub) {
@@ -502,7 +502,7 @@ $__System.registerDynamic("18", ["10", "12", "13", "14", "19", "15", "1a", "11",
         };
         TreeInternalComponent.prototype.executeOnChildController = function (executor) {
             var _this = this;
-            if (this.tree.hasLoadedChildern()) {
+            if (this.tree.hasLoadedChildren()) {
                 this.tree.children.forEach(function (child) {
                     var controller = _this.treeService.getController(child.id);
                     if (!fn_utils_1.isNil(controller)) {
@@ -1070,7 +1070,7 @@ $__System.registerDynamic("13", ["17", "1f", "12", "1e"], true, function ($__req
         });
         Object.defineProperty(Tree.prototype, "checkedChildren", {
             get: function () {
-                return this.hasLoadedChildern() ? this.children.filter(function (child) {
+                return this.hasLoadedChildren() ? this.children.filter(function (child) {
                     return child.checked;
                 }) : [];
             },
@@ -1088,7 +1088,7 @@ $__System.registerDynamic("13", ["17", "1f", "12", "1e"], true, function ($__req
             enumerable: true,
             configurable: true
         });
-        Tree.prototype.hasLoadedChildern = function () {
+        Tree.prototype.hasLoadedChildren = function () {
             return !fn_utils_1.isEmpty(this.children);
         };
         Tree.prototype.loadedChildrenAmount = function () {

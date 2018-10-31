@@ -331,7 +331,7 @@ var Tree = (function () {
     });
     Object.defineProperty(Tree.prototype, "checkedChildren", {
         get: function () {
-            return this.hasLoadedChildern() ? this.children.filter(function (child) { return child.checked; }) : [];
+            return this.hasLoadedChildren() ? this.children.filter(function (child) { return child.checked; }) : [];
         },
         enumerable: true,
         configurable: true
@@ -347,7 +347,7 @@ var Tree = (function () {
         enumerable: true,
         configurable: true
     });
-    Tree.prototype.hasLoadedChildern = function () {
+    Tree.prototype.hasLoadedChildren = function () {
         return !fn_utils_1.isEmpty(this.children);
     };
     Tree.prototype.loadedChildrenAmount = function () {

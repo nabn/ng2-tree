@@ -65,7 +65,7 @@ var TreeInternalComponent = (function () {
         this.controller = new tree_controller_1.TreeController(this);
     };
     TreeInternalComponent.prototype.ngOnDestroy = function () {
-        if (fn_utils_1.get(this.tree, 'node.id', '')) {
+        if (fn_utils_1.get(this.tree, 'node.id', '') && !(this.tree.parent && this.tree.parent.children.indexOf(this.tree) > -1)) {
             this.treeService.deleteController(this.tree.node.id);
         }
         this.subscriptions.forEach(function (sub) { return sub && sub.unsubscribe(); });
@@ -220,7 +220,7 @@ var TreeInternalComponent = (function () {
     };
     TreeInternalComponent.prototype.executeOnChildController = function (executor) {
         var _this = this;
-        if (this.tree.hasLoadedChildern()) {
+        if (this.tree.hasLoadedChildren()) {
             this.tree.children.forEach(function (child) {
                 var controller = _this.treeService.getController(child.id);
                 if (!fn_utils_1.isNil(controller)) {

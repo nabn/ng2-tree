@@ -91,7 +91,7 @@ export declare class Tree {
     checked: boolean;
     readonly checkedChildren: Tree[];
     selectionAllowed: boolean;
-    hasLoadedChildern(): boolean;
+    hasLoadedChildren(): boolean;
     loadedChildrenAmount(): number;
     checkedChildrenAmount(): number;
     /**
