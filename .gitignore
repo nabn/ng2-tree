@@ -4,7 +4,6 @@
 dist-demo
 build
 coverage
-bundles
 factories
 node_modules
 
