@@ -354,10 +354,12 @@ $__System.registerDynamic("18", ["10", "12", "13", "14", "19", "15", "1a", "11",
             this.treeService.fireNodeMoved(sibling, sibling.parent);
         };
         TreeInternalComponent.prototype.moveNodeToThisTreeAndRemoveFromPreviousOne = function (e, tree) {
+            e.captured.tree.removeItselfFromParent();
             var addedChild = tree.addChild(e.captured.tree);
             this.treeService.fireNodeMoved(addedChild, e.captured.tree.parent);
         };
         TreeInternalComponent.prototype.moveNodeToParentTreeAndRemoveFromPreviousOne = function (e, tree) {
+            e.captured.tree.removeItselfFromParent();
             var addedSibling = tree.addSibling(e.captured.tree, tree.positionInParent);
             this.treeService.fireNodeMoved(addedSibling, e.captured.tree.parent);
         };
