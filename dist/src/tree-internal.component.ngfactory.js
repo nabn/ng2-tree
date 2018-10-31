@@ -54,7 +54,7 @@ function View_TreeInternalComponent_10(_l) { return i0.ɵvid(0, [(_l()(), i0.ɵe
         var pd_0 = (_co.onMenuItemSelected($event) !== false);
         ad = (pd_0 && ad);
     } return ad; }, i3.View_NodeMenuComponent_0, i3.RenderType_NodeMenuComponent)), i0.ɵdid(1, 245760, null, 0, i4.NodeMenuComponent, [i0.Renderer2, i5.NodeMenuService], null, { menuItemSelected: "menuItemSelected" })], function (_ck, _v) { _ck(_v, 1, 0); }, null); }
-function View_TreeInternalComponent_11(_l) { return i0.ɵvid(0, [(_l()(), i0.ɵeld(0, 0, null, null, 0, "div", [["class", "drag-template"]], [[8, "innerHTML", 1]], null, null, null, null))], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = _co.tree.dragTemplate; _ck(_v, 0, 0, currVal_0); }); }
+function View_TreeInternalComponent_11(_l) { return i0.ɵvid(0, [(_l()(), i0.ɵeld(0, 0, null, null, 1, "div", [["class", "drag-template"]], [[8, "innerHTML", 1]], null, null, null, null)), i0.ɵppd(1, 1)], null, function (_ck, _v) { var _co = _v.component; var currVal_0 = i0.ɵunv(_v, 0, 0, _ck(_v, 1, 0, i0.ɵnov(_v.parent.parent, 0), _co.tree.dragTemplate)); _ck(_v, 0, 0, currVal_0); }); }
 function View_TreeInternalComponent_12(_l) { return i0.ɵvid(0, [(_l()(), i0.ɵeld(0, 0, null, null, 1, "node-menu", [], null, [[null, "menuItemSelected"]], function (_v, en, $event) { var ad = true; var _co = _v.component; if (("menuItemSelected" === en)) {
         var pd_0 = (_co.onMenuItemSelected($event) !== false);
         ad = (pd_0 && ad);
