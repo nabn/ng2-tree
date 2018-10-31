@@ -176,11 +176,13 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
   }
 
   private moveNodeToThisTreeAndRemoveFromPreviousOne(e: NodeDraggableEvent, tree: Tree): void {
+    e.captured.tree.removeItselfFromParent();
     const addedChild = tree.addChild(e.captured.tree);
     this.treeService.fireNodeMoved(addedChild, e.captured.tree.parent);
   }
 
   private moveNodeToParentTreeAndRemoveFromPreviousOne(e: NodeDraggableEvent, tree: Tree): void {
+    e.captured.tree.removeItselfFromParent();
     const addedSibling = tree.addSibling(e.captured.tree, tree.positionInParent);
     this.treeService.fireNodeMoved(addedSibling, e.captured.tree.parent);
   }
