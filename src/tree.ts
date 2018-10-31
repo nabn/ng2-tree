@@ -237,7 +237,7 @@ export class Tree {
   }
 
   public get checkedChildren(): Tree[] {
-    return this.hasLoadedChildern() ? this.children.filter(child => child.checked) : [];
+    return this.hasLoadedChildren() ? this.children.filter(child => child.checked) : [];
   }
 
   public set selectionAllowed(selectionAllowed: boolean) {
@@ -249,7 +249,7 @@ export class Tree {
     return isNil(value) ? true : !!value;
   }
 
-  hasLoadedChildern() {
+  hasLoadedChildren() {
     return !isEmpty(this.children);
   }
 

@@ -113,6 +113,12 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
       (this.tree as any).firstCheckedFired = true;
       this.treeService.fireNodeChecked(this.tree);
     }
+
+    if (this.tree.parent && this.tree.parent.checked) {
+      setTimeout(() => {
+        this.controller.check();
+      });
+    }
   }
 
   public ngOnInit(): void {
@@ -347,7 +353,7 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
   }
 
   private executeOnChildController(executor: (controller: TreeController) => void) {
-    if (this.tree.hasLoadedChildern()) {
+    if (this.tree.hasLoadedChildren()) {
       this.tree.children.forEach((child: Tree) => {
         const controller = this.treeService.getController(child.id);
         if (!isNil(controller)) {
