@@ -55,13 +55,14 @@
     "postversion": "git push origin master && git push --tags && npm run github-release && node publish.js",
     "webdriver-update": "node ./node_modules/protractor/bin/webdriver-manager update",
     "prettier": "prettier --write '{.,src,test}/**/*.ts'",
-    "commit:dist": "git add dist/\\* && git commit -m \"Rebuild dist\""
+    "commit:dist": "git add dist && git commit -m 'Rebuild dist'",
+    "pretty-quick": "pretty-quick"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && pretty-quick --staged",
+      "pre-commit": "npm run lint && npm run pretty-quick --staged",
       "pre-push":
-        "npm run clean && mkdir dist && npm run compile && cp -R src/styles.css README.md media dist && npm run commit:dist && git push"
+        "npm run clean && mkdir -p dist && npm run compile && cp -R src/styles.css README.md media dist && npm run commit:dist"
     }
   },
   "devDependencies": {
@@ -100,7 +101,7 @@
     "phantomjs-polyfill": "0.0.2",
     "phantomjs-prebuilt": "2.1.16",
     "prettier": "1.10.2",
-    "pretty-quick": "1.4.1",
+    "pretty-quick": "^1.4.1",
     "protractor": "5.2.0",
     "rimraf": "2.6.2",
     "rxjs": "5.5.2",
