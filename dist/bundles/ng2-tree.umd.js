@@ -346,9 +346,11 @@ $__System.registerDynamic("18", ["10", "12", "13", "14", "19", "15", "1a", "11",
                 var i = nodesToMove.length;
                 while (i--) {
                     var node = nodesToMove[i];
-                    var ctrl = _this.treeService.getController(node.tree.id);
-                    if (ctrl.isChecked()) {
-                        ctrl.uncheck();
+                    if (node.tree.id) {
+                        var ctrl = _this.treeService.getController(node.tree.id);
+                        if (ctrl.isChecked()) {
+                            ctrl.uncheck();
+                        }
                     }
                     if (_this.tree.isBranch() && e.position === draggable_events_1.DropPosition.Into) {
                         _this.moveNodeToThisTreeAndRemoveFromPreviousOne(node.tree, _this.tree);
