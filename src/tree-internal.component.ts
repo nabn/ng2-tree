@@ -150,9 +150,11 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
         let i = nodesToMove.length;
         while (i--) {
           const node = nodesToMove[i];
-          const ctrl = this.treeService.getController(node.tree.id);
-          if (ctrl.isChecked()) {
-            ctrl.uncheck();
+          if (node.tree.id) {
+            const ctrl = this.treeService.getController(node.tree.id);
+            if (ctrl.isChecked()) {
+              ctrl.uncheck();
+            }
           }
 
           if (this.tree.isBranch() && e.position === DropPosition.Into) {
