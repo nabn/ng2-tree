@@ -21,9 +21,11 @@ import { NodeEditableEvent, NodeEditableEventAction } from './editable/editable.
 import { NodeCheckedEvent, NodeEvent } from './tree.events';
 import { TreeService } from './tree.service';
 import * as EventUtils from './utils/event.utils';
-import { NodeDraggableEvent } from './draggable/draggable.events';
+import { NodeDraggableEvent, DropPosition } from './draggable/draggable.events';
 import { Subscription } from 'rxjs/Subscription';
 import { get, isNil } from './utils/fn.utils';
+import { NodeDraggableService } from './draggable/node-draggable.service';
+import { CapturedNode } from './draggable/captured-node';
 
 @Component({
   selector: 'tree-internal',
@@ -31,21 +33,22 @@ import { get, isNil } from './utils/fn.utils';
   <ul class="tree" *ngIf="tree" [ngClass]="{rootless: isRootHidden()}">
     <li>
       <div class="value-container"
-        [ngClass]="{rootless: isRootHidden()}"
+        [ngClass]="{rootless: isRootHidden(), checked: tree.checked}"
         [class.selected]="isSelected"
         (contextmenu)="showRightMenu($event)"
         [nodeDraggable]="nodeElementRef"
         [tree]="tree">
 
-        <div class="folding" (click)="onSwitchFoldingType()" [ngClass]="tree.foldingCssClass"></div>
-
         <div class="node-checkbox" *ngIf="settings.showCheckboxes">
-        <input checkbox  type="checkbox" [disabled]="isReadOnly" [checked]="this.tree.checked" (change)="switchNodeCheckStatus()" #checkbox />
-         </div>
+          <input checkbox  type="checkbox" [disabled]="isReadOnly" [checked]="tree.checked" (change)="switchNodeCheckStatus()" #checkbox />
+        </div>
+
+        <div class="folding" (click)="onSwitchFoldingType()" [ngClass]="tree.foldingCssClass"></div>
 
         <div class="node-value"
           *ngIf="!shouldShowInputForTreeValue()"
           [class.node-selected]="isSelected"
+          (dblClick)="onNodeDoubleClicked()"
           (click)="onNodeSelected($event)">
             <div *ngIf="tree.nodeTemplate" class="node-template" [innerHTML]="tree.nodeTemplate | safeHtml"></div>
             <span *ngIf="!template" class="node-name" [innerHTML]="tree.value | safeHtml"></span>
@@ -63,6 +66,7 @@ import { get, isNil } from './utils/fn.utils';
         <node-menu *ngIf="tree.hasLeftMenu() && isLeftMenuVisible && !hasCustomMenu()"
           (menuItemSelected)="onMenuItemSelected($event)">
         </node-menu>
+        <div class="drag-template" *ngIf="tree.hasDragIcon()" [innerHTML]="tree.dragTemplate | safeHtml"></div>
       </div>
 
       <node-menu *ngIf="isRightMenuVisible && !hasCustomMenu()"
@@ -104,6 +108,7 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
   public constructor(
     private nodeMenuService: NodeMenuService,
     public treeService: TreeService,
+    public nodeDraggableService: NodeDraggableService,
     public nodeElementRef: ElementRef
   ) {}
 
@@ -139,12 +144,28 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
 
     this.subscriptions.push(
       this.treeService.draggedStream(this.tree, this.nodeElementRef).subscribe((e: NodeDraggableEvent) => {
-        if (this.tree.hasSibling(e.captured.tree)) {
-          this.swapWithSibling(e.captured.tree, this.tree);
-        } else if (this.tree.isBranch()) {
-          this.moveNodeToThisTreeAndRemoveFromPreviousOne(e, this.tree);
-        } else {
-          this.moveNodeToParentTreeAndRemoveFromPreviousOne(e, this.tree);
+        // Remove child nodes if parent is being moved (child nodes will move with the parent)
+        const nodesToMove = e.captured.filter(cn => !cn.tree.parent.checked);
+
+        let i = nodesToMove.length;
+        while (i--) {
+          const node = nodesToMove[i];
+          const ctrl = this.treeService.getController(node.tree.id);
+          if (ctrl.isChecked()) {
+            ctrl.uncheck();
+          }
+
+          if (this.tree.isBranch() && e.position === DropPosition.Into) {
+            this.moveNodeToThisTreeAndRemoveFromPreviousOne(node.tree, this.tree);
+          } else if (this.tree.hasSibling(node.tree)) {
+            this.moveSibling(node.tree, this.tree, e.position);
+          } else {
+            this.moveNodeToParentTreeAndRemoveFromPreviousOne(node.tree, this.tree, e.position);
+          }
+        }
+        const parentCtrl = this.treeService.getController(this.tree.parent.id);
+        if (parentCtrl) {
+          parentCtrl.updateCheckboxState();
         }
       })
     );
@@ -162,28 +183,53 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
   }
 
   public ngOnDestroy(): void {
-    if (get(this.tree, 'node.id', '')) {
+    if (get(this.tree, 'node.id', '') && !(this.tree.parent && this.tree.parent.children.indexOf(this.tree) > -1)) {
       this.treeService.deleteController(this.tree.node.id);
     }
 
     this.subscriptions.forEach(sub => sub && sub.unsubscribe());
   }
 
-  private swapWithSibling(sibling: Tree, tree: Tree): void {
-    tree.swapWithSibling(sibling);
-    this.treeService.fireNodeMoved(sibling, sibling.parent);
+  private moveSibling(sibling: Tree, tree: Tree, position: DropPosition): void {
+    const previousPositionInParent = sibling.positionInParent;
+    if (position === DropPosition.Above) {
+      tree.moveSiblingAbove(sibling);
+    } else {
+      tree.moveSiblingBelow(sibling);
+    }
+    this.treeService.fireNodeMoved(sibling, sibling.parent, previousPositionInParent);
   }
 
-  private moveNodeToThisTreeAndRemoveFromPreviousOne(e: NodeDraggableEvent, tree: Tree): void {
-    this.treeService.fireNodeRemoved(e.captured.tree);
-    const addedChild = tree.addChild(e.captured.tree);
-    this.treeService.fireNodeMoved(addedChild, e.captured.tree.parent);
+  private moveNodeToThisTreeAndRemoveFromPreviousOne(capturedTree: Tree, moveToTree: Tree): void {
+    capturedTree.removeItselfFromParent();
+    setTimeout(() => {
+      const addedChild = moveToTree.addChild(capturedTree);
+      this.treeService.fireNodeMoved(addedChild, capturedTree.parent);
+    });
   }
 
-  private moveNodeToParentTreeAndRemoveFromPreviousOne(e: NodeDraggableEvent, tree: Tree): void {
-    this.treeService.fireNodeRemoved(e.captured.tree);
-    const addedSibling = tree.addSibling(e.captured.tree, tree.positionInParent);
-    this.treeService.fireNodeMoved(addedSibling, e.captured.tree.parent);
+  private moveNodeToParentTreeAndRemoveFromPreviousOne(
+    capturedTree: Tree,
+    moveToTree: Tree,
+    position: DropPosition
+  ): void {
+    capturedTree.removeItselfFromParent();
+    setTimeout(() => {
+      let insertAtIndex = moveToTree.positionInParent;
+      if (position === DropPosition.Below) {
+        insertAtIndex++;
+      }
+      const addedSibling = moveToTree.addSibling(capturedTree, insertAtIndex);
+      this.treeService.fireNodeMoved(addedSibling, capturedTree.parent);
+    });
+  }
+
+  public onNodeDoubleClicked(): void {
+    if (!this.tree.selectionAllowed) {
+      return;
+    }
+
+    this.treeService.fireNodeDoubleClicked(this.tree);
   }
 
   public onNodeSelected(e: { button: number }): void {
@@ -323,30 +369,51 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
     }
   }
 
-  public onNodeChecked(): void {
+  public onNodeChecked(ignoreChildren: boolean = false): void {
     if (!this.checkboxElementRef) {
       return;
     }
 
-    this.checkboxElementRef.nativeElement.indeterminate = false;
-    this.treeService.fireNodeChecked(this.tree);
-    this.executeOnChildController(controller => controller.check());
-    this.tree.checked = true;
+    if (!this.tree.checked) {
+      this.nodeDraggableService.addCheckedNode(new CapturedNode(this.nodeElementRef, this.tree));
+      this.onNodeIndeterminate(false);
+      this.tree.checked = true;
+      this.treeService.fireNodeChecked(this.tree);
+    }
+
+    if (!ignoreChildren) {
+      this.executeOnChildController(controller => controller.check());
+    }
   }
 
-  public onNodeUnchecked(): void {
+  public onNodeUnchecked(ignoreChildren: boolean = false): void {
     if (!this.checkboxElementRef) {
       return;
     }
 
-    this.checkboxElementRef.nativeElement.indeterminate = false;
-    this.treeService.fireNodeUnchecked(this.tree);
-    this.executeOnChildController(controller => controller.uncheck());
-    this.tree.checked = false;
+    if (this.tree.checked) {
+      this.nodeDraggableService.removeCheckedNodeById(this.tree.id);
+      this.onNodeIndeterminate(false);
+      this.tree.checked = false;
+      this.treeService.fireNodeUnchecked(this.tree);
+    }
+
+    if (!ignoreChildren) {
+      this.executeOnChildController(controller => controller.uncheck());
+    }
+  }
+
+  public onNodeIndeterminate(indeterminate: boolean): void {
+    if (!this.checkboxElementRef || this.checkboxElementRef.nativeElement.indeterminate === indeterminate) {
+      return;
+    }
+
+    this.checkboxElementRef.nativeElement.indeterminate = indeterminate;
+    this.treeService.fireNodeIndeterminate(this.tree, indeterminate);
   }
 
   private executeOnChildController(executor: (controller: TreeController) => void) {
-    if (this.tree.hasLoadedChildern()) {
+    if (this.tree.hasLoadedChildren()) {
       this.tree.children.forEach((child: Tree) => {
         const controller = this.treeService.getController(child.id);
         if (!isNil(controller)) {
@@ -361,17 +428,18 @@ export class TreeInternalComponent implements OnInit, OnChanges, OnDestroy, Afte
     setTimeout(() => {
       const checkedChildrenAmount = this.tree.checkedChildrenAmount();
       if (checkedChildrenAmount === 0) {
-        this.checkboxElementRef.nativeElement.indeterminate = false;
-        this.tree.checked = false;
-        this.treeService.fireNodeUnchecked(this.tree);
+        this.onNodeUnchecked(true);
+        this.onNodeIndeterminate(false);
       } else if (checkedChildrenAmount === this.tree.loadedChildrenAmount()) {
-        this.checkboxElementRef.nativeElement.indeterminate = false;
-        this.tree.checked = true;
-        this.treeService.fireNodeChecked(this.tree);
+        if (!this.settings.ignoreParentOnCheck) {
+          this.onNodeChecked(true);
+          this.onNodeIndeterminate(false);
+        } else if (!this.tree.checked) {
+          this.onNodeIndeterminate(true);
+        }
       } else {
-        this.tree.checked = false;
-        this.checkboxElementRef.nativeElement.indeterminate = true;
-        this.treeService.fireNodeIndetermined(this.tree);
+        this.onNodeUnchecked(true);
+        this.onNodeIndeterminate(true);
       }
     });
   }

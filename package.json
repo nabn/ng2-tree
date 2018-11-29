@@ -1,8 +1,8 @@
 {
   "name": "ng2-tree",
   "version": "2.0.0-rc.11",
-  "description": "angular2 component for visualizing data that can be naturally represented as a tree",
-  "main": "index.js",
+  "description": "Angular component for visualizing data that can be naturally represented as a tree",
+  "main": "dist/index.js",
   "license": "MIT",
   "author": {
     "name": "Georgii Rychko",
@@ -14,13 +14,13 @@
       "url": "https://www.arria.com"
     }
   ],
-  "homepage": "https://github.com/ArriaData2Text/ng2-tree",
+  "homepage": "https://github.com/ArriaOpenSource/ng2-tree",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ArriaData2Text/ng2-tree.git"
+    "url": "git@github.com:ArriaOpenSource/ng2-tree.git"
   },
   "bugs": {
-    "url": "https://github.com/ArriaData2Text/ng2-tree/issues"
+    "url": "https://github.com/ArriaOpenSource/ng2-tree/issues"
   },
   "private": true,
   "keywords": [
@@ -54,11 +54,14 @@
     "version": "npm run changelog && git add CHANGELOG.md",
     "postversion": "git push origin master && git push --tags && npm run github-release && node publish.js",
     "webdriver-update": "node ./node_modules/protractor/bin/webdriver-manager update",
-    "prettier": "prettier --write '{.,src,test}/**/*.ts'"
+    "prettier": "prettier --write '{.,src,test}/**/*.ts'",
+    "commit:dist": "git add dist/\\* && git commit -m \"Rebuild dist\""
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && pretty-quick --staged"
+      "pre-commit": "npm run lint && pretty-quick --staged",
+      "pre-push":
+        "npm run clean && mkdir dist && npm run compile && cp -R src/styles.css README.md media dist && npm run commit:dist && git push --no-verify"
     }
   },
   "devDependencies": {

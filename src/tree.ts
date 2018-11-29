@@ -237,7 +237,7 @@ export class Tree {
   }
 
   public get checkedChildren(): Tree[] {
-    return this.hasLoadedChildern() ? this.children.filter(child => child.checked) : [];
+    return this.hasLoadedChildren() ? this.children.filter(child => child.checked) : [];
   }
 
   public set selectionAllowed(selectionAllowed: boolean) {
@@ -249,7 +249,7 @@ export class Tree {
     return isNil(value) ? true : !!value;
   }
 
-  hasLoadedChildern() {
+  hasLoadedChildren() {
     return !isEmpty(this.children);
   }
 
@@ -321,19 +321,37 @@ export class Tree {
   }
 
   /**
-   * Swap position of the current node with the given sibling. If node passed as a parameter is not a sibling - nothing happens.
-   * @param {Tree} sibling - A sibling with which current node shold be swapped.
+   * Moves a given sibling above the this node.
+   * If node passed as a parameter is not a sibling - nothing happens.
+   * @param {Tree} sibling - A sibling to move
    */
-  public swapWithSibling(sibling: Tree): void {
+  public moveSiblingAbove(sibling: Tree): void {
     if (!this.hasSibling(sibling)) {
       return;
     }
 
-    const siblingIndex = sibling.positionInParent;
-    const thisTreeIndex = this.positionInParent;
+    const siblings = this.parent._children;
+    const siblingToMove = siblings.splice(sibling.positionInParent, 1)[0];
+    const insertAtIndex = this.positionInParent;
 
-    this.parent._children[siblingIndex] = this;
-    this.parent._children[thisTreeIndex] = sibling;
+    siblings.splice(insertAtIndex, 0, siblingToMove);
+  }
+
+  /**
+   * Moves a given sibling below the this node.
+   * If node passed as a parameter is not a sibling - nothing happens.
+   * @param {Tree} sibling - A sibling to move
+   */
+  public moveSiblingBelow(sibling: Tree): void {
+    if (!this.hasSibling(sibling)) {
+      return;
+    }
+
+    const siblings = this.parent._children;
+    const siblingToMove = siblings.splice(sibling.positionInParent, 1)[0];
+    const insertAtIndex = this.positionInParent + 1;
+
+    siblings.splice(insertAtIndex, 0, siblingToMove);
   }
 
   /**
@@ -370,6 +388,14 @@ export class Tree {
    */
   public hasRightMenu(): boolean {
     return !get(this.node.settings, 'static', false) && get(this.node.settings, 'rightMenu', false);
+  }
+
+  /**
+   * Check whether or not this tree should show a drag icon.
+   * @returns {boolean} A flag indicating whether or not this tree has a left menu.
+   */
+  public hasDragIcon(): boolean {
+    return !get(this.node.settings, 'static', false) && get(this.node.settings, 'dragIcon', false);
   }
 
   /**
@@ -571,6 +597,10 @@ export class Tree {
       return get(this.node.settings, 'templates.leftMenu', '<span></span>');
     }
     return '';
+  }
+
+  public get dragTemplate(): string {
+    return get(this.node.settings, 'templates.dragIcon', '<span></span>');
   }
 
   public disableCollapseOnInit() {

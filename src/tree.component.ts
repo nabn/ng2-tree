@@ -20,6 +20,7 @@ import { MenuItemSelectedEvent, NodeCheckedEvent, NodeEvent, NodeUncheckedEvent 
 import { Tree } from './tree';
 import { TreeController } from './tree-controller';
 import { Subscription } from 'rxjs/Subscription';
+import { NodeDragStartEvent } from './draggable/draggable.events';
 
 @Component({
   selector: 'tree',
@@ -29,9 +30,8 @@ import { Subscription } from 'rxjs/Subscription';
 export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   private static EMPTY_TREE: Tree = new Tree({ value: '' });
 
-  /* tslint:disable:no-input-rename */
+  /* tslint:disable-next-line:no-input-rename */
   @Input('tree') public treeModel: TreeTypes.TreeModel;
-  /* tslint:enable:no-input-rename */
 
   @Input() public settings: TreeTypes.Ng2TreeSettings;
 
@@ -44,6 +44,8 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
   @Output() public nodeSelected: EventEmitter<any> = new EventEmitter();
 
   @Output() public nodeUnselected: EventEmitter<any> = new EventEmitter();
+
+  @Output() public nodeDragStarted: EventEmitter<NodeDragStartEvent> = new EventEmitter();
 
   @Output() public nodeMoved: EventEmitter<any> = new EventEmitter();
 
@@ -105,6 +107,12 @@ export class TreeComponent implements OnInit, OnChanges, OnDestroy {
     this.subscriptions.push(
       this.treeService.nodeUnselected$.subscribe((e: NodeEvent) => {
         this.nodeUnselected.emit(e);
+      })
+    );
+
+    this.subscriptions.push(
+      this.treeService.nodeMoveStarted$.subscribe((e: NodeDragStartEvent) => {
+        this.nodeDragStarted.emit(e);
       })
     );
 

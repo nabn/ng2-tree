@@ -7,18 +7,20 @@ import {
   MenuItemSelectedEvent,
   NodeCollapsedEvent,
   NodeCreatedEvent,
+  NodeDoubleClickedEvent,
   NodeExpandedEvent,
   NodeMovedEvent,
   NodeRemovedEvent,
   NodeRenamedEvent,
-  NodeSelectedEvent
+  NodeSelectedEvent,
+  NodeIndeterminateEvent
 } from '../src/tree.events';
 import { ElementRef } from '@angular/core';
-import { NodeDraggableEvent } from '../src/draggable/draggable.events';
+import { NodeDraggableEvent, DropPosition } from '../src/draggable/draggable.events';
 import { CapturedNode } from '../src/draggable/captured-node';
 
 let treeService;
-let draggableService;
+let draggableService: NodeDraggableService;
 
 describe('TreeService', () => {
   beforeEach(() => {
@@ -69,10 +71,10 @@ describe('TreeService', () => {
     const parent = new Tree({ value: 'Master Pa' });
     const tree = new Tree({ value: 'Master' }, parent);
 
-    treeService.fireNodeMoved(tree, parent);
+    treeService.fireNodeMoved(tree, parent, 1);
 
     expect(treeService.nodeMoved$.next).toHaveBeenCalledTimes(1);
-    expect(treeService.nodeMoved$.next).toHaveBeenCalledWith(new NodeMovedEvent(tree, parent));
+    expect(treeService.nodeMoved$.next).toHaveBeenCalledWith(new NodeMovedEvent(tree, parent, 1));
   });
 
   it('fires node created events', () => {
@@ -95,6 +97,16 @@ describe('TreeService', () => {
 
     expect(treeService.nodeSelected$.next).toHaveBeenCalledTimes(1);
     expect(treeService.nodeSelected$.next).toHaveBeenCalledWith(new NodeSelectedEvent(tree));
+  });
+
+  it('fires node double clicked events', () => {
+    spyOn(treeService.nodeDoubleClicked$, 'next');
+
+    const tree = new Tree({ value: 'Master' });
+
+    treeService.fireNodeDoubleClicked(tree);
+    expect(treeService.nodeDoubleClicked$.next).toHaveBeenCalledTimes(1);
+    expect(treeService.nodeDoubleClicked$.next).toHaveBeenCalledWith(new NodeDoubleClickedEvent(tree));
   });
 
   it('fires node renamed events', () => {
@@ -128,6 +140,17 @@ describe('TreeService', () => {
 
     expect(treeService.nodeCollapsed$.next).toHaveBeenCalledTimes(1);
     expect(treeService.nodeCollapsed$.next).toHaveBeenCalledWith(new NodeCollapsedEvent(tree));
+  });
+
+  it('fires node indeterminate events', () => {
+    spyOn(treeService.nodeIndeterminate$, 'next');
+
+    const tree = new Tree({ value: 'Master' });
+
+    treeService.fireNodeIndeterminate(tree, true);
+
+    expect(treeService.nodeIndeterminate$.next).toHaveBeenCalledTimes(1);
+    expect(treeService.nodeIndeterminate$.next).toHaveBeenCalledWith(new NodeIndeterminateEvent(tree, true));
   });
 
   it('fires events on which other tree should remove selection', done => {
@@ -172,12 +195,12 @@ describe('TreeService', () => {
     const elementRef = new ElementRef(null);
 
     treeService.draggedStream(tree, elementRef).subscribe((e: NodeDraggableEvent) => {
-      expect(e.captured.tree).toBe(masterTree);
-      expect(e.captured.element).toBe(elementRef);
+      expect(e.captured[0].tree).toBe(masterTree);
+      expect(e.captured[0].element).toBe(elementRef);
       done();
     });
 
-    draggableService.fireNodeDragged(new CapturedNode(elementRef, masterTree), elementRef);
+    draggableService.fireNodeDragged([new CapturedNode(elementRef, masterTree)], elementRef, DropPosition.Below);
   });
 
   it('does not fire "expanded", "collapsed" events for a leaf node', () => {

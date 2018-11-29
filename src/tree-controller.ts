@@ -135,15 +135,19 @@ export class TreeController {
     this.component.onNodeChecked();
   }
 
-  public uncheck(): void {
-    this.component.onNodeUnchecked();
+  public uncheck(ignoreChildren: boolean = false): void {
+    this.component.onNodeUnchecked(ignoreChildren);
+  }
+
+  public updateCheckboxState(): void {
+    this.component.updateCheckboxState();
   }
 
   public isChecked(): boolean {
     return this.tree.checked;
   }
 
-  public isIndetermined(): boolean {
+  public isIndeterminate(): boolean {
     return get(this.component, 'checkboxElementRef.nativeElement.indeterminate');
   }
 

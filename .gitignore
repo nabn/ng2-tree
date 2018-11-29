@@ -1,11 +1,9 @@
 .idea
 .vscode
 .publish
-dist
 dist-demo
 build
 coverage
-bundles
 factories
 node_modules
 

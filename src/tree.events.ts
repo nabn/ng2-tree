@@ -5,6 +5,12 @@ export class NodeEvent {
   public constructor(public node: Tree) {}
 }
 
+export class NodeDoubleClickedEvent extends NodeEvent {
+  public constructor(node: Tree) {
+    super(node);
+  }
+}
+
 export class NodeSelectedEvent extends NodeEvent {
   public constructor(node: Tree) {
     super(node);
@@ -24,7 +30,7 @@ export class NodeDestructiveEvent extends NodeEvent {
 }
 
 export class NodeMovedEvent extends NodeDestructiveEvent {
-  public constructor(node: Tree, public previousParent: Tree) {
+  public constructor(node: Tree, public previousParent: Tree, public previousPosition?: number) {
     super(node);
   }
 }
@@ -83,8 +89,8 @@ export class NodeUncheckedEvent extends NodeEvent {
   }
 }
 
-export class NodeIndeterminedEvent extends NodeEvent {
-  public constructor(node: Tree) {
+export class NodeIndeterminateEvent extends NodeEvent {
+  public constructor(node: Tree, public indeterminate: boolean) {
     super(node);
   }
 }

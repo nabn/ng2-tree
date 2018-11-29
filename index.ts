@@ -15,6 +15,7 @@ import { NodeMenuItem } from './src/menu/node-menu.component';
 import {
   NodeEvent,
   NodeCreatedEvent,
+  NodeDoubleClickedEvent,
   NodeRemovedEvent,
   NodeRenamedEvent,
   NodeMovedEvent,
@@ -25,9 +26,11 @@ import {
   NodeDestructiveEvent,
   NodeUncheckedEvent,
   NodeCheckedEvent,
-  NodeIndeterminedEvent,
+  NodeIndeterminateEvent,
   NodeUnselectedEvent
 } from './src/tree.events';
+
+import { NodeDragStartEvent, NodeDraggableEvent } from './src/draggable/draggable.events';
 
 import { TreeComponent } from './src/tree.component';
 import { TreeController } from './src/tree-controller';
@@ -42,6 +45,7 @@ export {
   FoldingType,
   NodeEvent,
   NodeCreatedEvent,
+  NodeDoubleClickedEvent,
   NodeRemovedEvent,
   NodeRenamedEvent,
   NodeMovedEvent,
@@ -52,8 +56,10 @@ export {
   NodeMenuEvent,
   NodeUncheckedEvent,
   NodeCheckedEvent,
-  NodeIndeterminedEvent,
+  NodeIndeterminateEvent,
   NodeUnselectedEvent,
+  NodeDragStartEvent,
+  NodeDraggableEvent,
   TreeComponent,
   TreeModule,
   NodeMenuItemAction,

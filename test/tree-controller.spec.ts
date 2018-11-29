@@ -121,6 +121,14 @@ describe('TreeController', () => {
     expect(controller.isChecked()).toBe(false);
   });
 
+  it('can update checkbox state', () => {
+    const controller = treeService.getController(lordInternalTreeInstance.tree.id);
+    spyOn((controller as any).component, 'updateCheckboxState');
+
+    controller.updateCheckboxState();
+    expect((controller as any).component.updateCheckboxState).toHaveBeenCalled();
+  });
+
   it('forbids selection', () => {
     const controller = treeService.getController(lordInternalTreeInstance.tree.id);
     expect(controller.isSelectionAllowed()).toBe(true);
@@ -181,7 +189,7 @@ describe('TreeController', () => {
   });
 
   it(
-    'detects indetermined node',
+    'detects indeterminate node',
     fakeAsync(() => {
       const tree = lordInternalTreeInstance.tree;
       const controller = treeService.getController(tree.id);
@@ -192,7 +200,7 @@ describe('TreeController', () => {
       tick();
 
       expect(childController.isChecked()).toBe(true, 'Node should be checked');
-      expect(controller.isIndetermined()).toBe(true, 'Node should be in indetermined state');
+      expect(controller.isIndeterminate()).toBe(true, 'Node should be in indeterminate state');
     })
   );
 
